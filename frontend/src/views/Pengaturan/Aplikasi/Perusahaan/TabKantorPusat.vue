@@ -105,18 +105,40 @@
       <div class="card-body">
         <div class="logo-upload-wrapper">
           <div class="logo-preview-box">
-            <img src="https://via.placeholder.com/120x120?text=Logo" alt="Logo Perusahaan" style="max-width: 100%; max-height: 100%;">
+            <img v-if="logoUrl" :src="logoUrl" alt="Logo Perusahaan" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <div v-else class="logo-placeholder">
+              <i class="fa fa-image" style="font-size: 40px; color: #cbd5e1;"></i>
+              <span style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Belum ada logo</span>
+            </div>
           </div>
           <div class="logo-instructions">
             <h6>Upload Logo Baru</h6>
             <ul>
-              <li><i class="fa fa-check-circle"></i> Format yang didukung: <strong>JPG, PNG</strong></li>
+              <li><i class="fa fa-check-circle"></i> Format yang didukung: <strong>JPG, PNG, WEBP</strong></li>
               <li><i class="fa fa-check-circle"></i> Rekomendasi dimensi: <strong>300x300 pixel</strong></li>
-              <li><i class="fa fa-check-circle"></i> Maksimal ukuran file: <strong>1MB</strong></li>
+              <li><i class="fa fa-check-circle"></i> Maksimal ukuran file: <strong>2MB</strong></li>
             </ul>
-            <p style="color: #3b82f6; font-size: 13px; margin-top: 20px;">
-              <i class="fa fa-info-circle"></i> Logo akan tersimpan secara otomatis setelah berhasil diunggah.
+
+            <!-- Tombol Pilih File -->
+            <input type="file" ref="fileInput" accept="image/png,image/jpeg,image/webp" @change="handleFileSelect" style="display: none;">
+            <div style="display: flex; gap: 10px; margin-top: 16px;">
+              <button type="button" class="btn-outline" @click="$refs.fileInput.click()">
+                <i class="fa fa-folder-open"></i> Pilih File
+              </button>
+              <button type="button" class="btn-primary" @click="uploadLogo" :disabled="!selectedFile || uploading">
+                <i class="fa fa-cloud-upload"></i> {{ uploading ? 'Mengupload...' : 'Upload Logo' }}
+              </button>
+            </div>
+
+            <!-- Preview nama file yang dipilih -->
+            <p v-if="selectedFile" style="color: #059669; font-size: 13px; margin-top: 12px;">
+              <i class="fa fa-file-image-o"></i> {{ selectedFile.name }} ({{ (selectedFile.size / 1024).toFixed(1) }} KB)
             </p>
+
+            <!-- Toast upload -->
+            <div v-if="uploadToast.show" :class="['toast-alert', `toast-${uploadToast.type}`]" style="margin-top: 12px;">
+              {{ uploadToast.message }}
+            </div>
           </div>
         </div>
       </div>
@@ -131,6 +153,13 @@ import axios from 'axios';
 const isEditing = ref(false);
 const saving = ref(false);
 const toast = ref({ show: false, message: '', type: 'success' });
+
+// === Logo Upload State ===
+const logoUrl = ref('');
+const selectedFile = ref(null);
+const uploading = ref(false);
+const uploadToast = ref({ show: false, message: '', type: 'success' });
+const fileInput = ref(null);
 
 const API_URL = "/api/app-settings";
 const settingsMap = ref({});
@@ -154,6 +183,85 @@ function showToast(message, type = "success") {
   setTimeout(() => { toast.value.show = false; }, 3000);
 }
 
+function showUploadToast(message, type = "success") {
+  uploadToast.value = { show: true, message, type };
+  setTimeout(() => { uploadToast.value.show = false; }, 4000);
+}
+
+// === Logo Upload Functions ===
+
+// Ketika user memilih file dari dialog
+const handleFileSelect = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Validasi ukuran (maksimal 2MB)
+  if (file.size > 2 * 1024 * 1024) {
+    showUploadToast("Ukuran file terlalu besar. Maksimal 2MB.", "error");
+    return;
+  }
+
+  selectedFile.value = file;
+
+  // Langsung tampilkan preview lokal
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    logoUrl.value = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+// Mengirim file ke server backend
+const uploadLogo = async () => {
+  if (!selectedFile.value) return;
+
+  uploading.value = true;
+  try {
+    const formData = new FormData();
+    formData.append("logo", selectedFile.value);
+
+    const res = await axios.post("/api/upload/logo", formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+
+    // Simpan URL logo ke AppSetting agar bisa dimuat kembali nanti
+    logoUrl.value = res.data.url;
+
+    // Simpan path logo ke database AppSetting
+    if (settingsMap.value["logo_url"]) {
+      await axios.put(`${API_URL}/bulk`, {
+        settings: [{ id: settingsMap.value["logo_url"].id, value: res.data.url }]
+      });
+    } else {
+      const settingRes = await axios.post(API_URL, {
+        key: "logo_url",
+        label: "LOGO URL",
+        value: res.data.url,
+        type: "text",
+        group: "perusahaan_pusat"
+      });
+      settingsMap.value["logo_url"] = { id: settingRes.data.id, value: res.data.url };
+    }
+
+    showUploadToast("Logo berhasil diupload dan disimpan!");
+    selectedFile.value = null;
+  } catch (error) {
+    const msg = error.response?.data?.message || "Gagal mengupload logo";
+    showUploadToast(msg, "error");
+  } finally {
+    uploading.value = false;
+  }
+};
+
+// Memuat URL logo yang tersimpan dari database
+const loadLogo = () => {
+  if (settingsMap.value["logo_url"] && settingsMap.value["logo_url"].value) {
+    logoUrl.value = settingsMap.value["logo_url"].value;
+  }
+};
+
+// === Existing Settings Functions ===
+
 const loadSettings = async () => {
   try {
     const res = await axios.get(`${API_URL}?group=perusahaan_pusat`);
@@ -164,6 +272,8 @@ const loadSettings = async () => {
         form.value[item.key] = item.value;
       }
     });
+    // Setelah data setting dimuat, cek apakah ada logo tersimpan
+    loadLogo();
   } catch (error) {
     console.error("Gagal mengambil data pengaturan", error);
   }
@@ -211,3 +321,4 @@ onMounted(() => {
   loadSettings();
 });
 </script>
+

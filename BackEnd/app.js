@@ -1,10 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Menyajikan folder uploads sebagai file statis (agar gambar bisa diakses via URL)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
@@ -18,6 +22,7 @@ const komoditasRoutes = require("./routes/komoditas.routes");
 const lokasiRoutes = require("./routes/lokasi.routes");
 const trayekRoutes = require("./routes/trayek.routes");
 const perusahaanRoutes = require("./routes/perusahaan.routes");
+const uploadRoutes = require("./routes/upload.routes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -31,6 +36,7 @@ app.use("/api/komoditas", komoditasRoutes);
 app.use("/api/lokasi", lokasiRoutes);
 app.use("/api/trayek", trayekRoutes);
 app.use("/api/perusahaan", perusahaanRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend Logistics Running 🚀");

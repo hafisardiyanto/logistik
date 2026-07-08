@@ -31,6 +31,9 @@ services:
       # Mengganti localhost dengan nama service 'db' agar bisa terkoneksi di dalam jaringan Docker
       DATABASE_URL: "mysql://root:@db:3306/logistics"
       PORT: 3000
+    volumes:
+      # Menyimpan file upload (logo, dll) agar tidak hilang saat container di-rebuild
+      - uploads_data:/usr/src/app/uploads
 
   # 3. Layanan Frontend (Vue.js + Nginx)
   frontend:
@@ -48,3 +51,4 @@ services:
 # Deklarasi Volume untuk penyimpanan persisten
 volumes:
   db_data:
+  uploads_data:
