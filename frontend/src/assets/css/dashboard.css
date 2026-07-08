@@ -78,8 +78,8 @@
 .sidebar-resize-handle {
   position: absolute;
   top: 0;
-  right: 0;
-  width: 4px;
+  right: -4px;
+  width: 8px;
   height: 100%;
   cursor: col-resize;
   background: transparent;
@@ -89,6 +89,14 @@
 .sidebar-resize-handle:hover,
 .sidebar-resize-handle:active {
   background: linear-gradient(180deg, transparent, #2563eb, transparent);
+}
+
+/* Di layar sentuh (HP/Tablet), perbesar area handle agar mudah ditangkap jari */
+@media (max-width: 768px) {
+  .sidebar-resize-handle {
+    width: 16px;
+    right: -8px;
+  }
 }
 
 .sidebar-header {

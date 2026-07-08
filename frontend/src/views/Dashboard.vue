@@ -5,8 +5,8 @@
       <div class="sidebar-header">
         <h2 class="logo-text" v-show="!sidebarCollapsed">Management Order</h2>
         <button class="sidebar-toggle-btn" @click="toggleSidebar" :title="sidebarCollapsed ? 'Buka Sidebar' : 'Tutup Sidebar'">
-          <span v-if="sidebarCollapsed">☰</span>
-          <span v-else>✕</span>
+          <span v-if="sidebarCollapsed">❯</span>
+          <span v-else>❮</span>
         </button>
       </div>
       
@@ -144,7 +144,7 @@
       </div>
 
       <!-- Resize Handle (garis tarik untuk mengubah lebar sidebar) -->
-      <div class="sidebar-resize-handle" @mousedown="startResize" v-show="!sidebarCollapsed"></div>
+      <div class="sidebar-resize-handle" @mousedown="startResize" @touchstart.prevent="startResize" v-show="!sidebarCollapsed"></div>
     </aside>
 
     <!-- Main Content -->
@@ -370,29 +370,40 @@ const toggleSidebar = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
 }
 
-// Resize sidebar dengan drag
+// Resize sidebar dengan drag (mendukung mouse & sentuhan HP)
 const startResize = (e) => {
   isResizing.value = true
   document.body.style.cursor = 'col-resize'
   document.body.style.userSelect = 'none'
 
-  const onMouseMove = (event) => {
-    const newWidth = event.clientX
+  const getClientX = (event) => {
+    if (event.touches && event.touches.length > 0) {
+      return event.touches[0].clientX
+    }
+    return event.clientX
+  }
+
+  const onMove = (event) => {
+    const newWidth = getClientX(event)
     if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
       sidebarWidth.value = newWidth
     }
   }
 
-  const onMouseUp = () => {
+  const onEnd = () => {
     isResizing.value = false
     document.body.style.cursor = ''
     document.body.style.userSelect = ''
-    document.removeEventListener('mousemove', onMouseMove)
-    document.removeEventListener('mouseup', onMouseUp)
+    document.removeEventListener('mousemove', onMove)
+    document.removeEventListener('mouseup', onEnd)
+    document.removeEventListener('touchmove', onMove)
+    document.removeEventListener('touchend', onEnd)
   }
 
-  document.addEventListener('mousemove', onMouseMove)
-  document.addEventListener('mouseup', onMouseUp)
+  document.addEventListener('mousemove', onMove)
+  document.addEventListener('mouseup', onEnd)
+  document.addEventListener('touchmove', onMove, { passive: false })
+  document.addEventListener('touchend', onEnd)
 }
 const showAddUserModal = ref(false)
 const currentUser = ref(null)
