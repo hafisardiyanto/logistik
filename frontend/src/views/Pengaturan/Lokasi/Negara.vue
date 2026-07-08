@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>Negara, Provinsi, Kota, Kec.</h1>
       <div class="breadcrumb">
-        <span>Home</span> &gt; <span>Pengaturan Lokasi</span> &gt; <span>Negara, Provinsi, Kota, Kec.</span>
+        <RouterLink to="/" title="/">Home</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> &gt; <span>Pengaturan Lokasi</span> &gt; <span>Negara, Provinsi, Kota, Kec.</span>
       </div>
     </div>
 

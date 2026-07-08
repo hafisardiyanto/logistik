@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>{{ isEdit ? 'Edit' : 'Tambah' }} Trayek/Rute</h1>
       <div class="breadcrumb">
-        <span>Home</span> &gt; <span>Pengaturan Aplikasi</span> &gt; <span style="cursor: pointer" @click="router.push('/pengaturan/aplikasi/trayek')">Trayek / Rute</span> &gt; <span>{{ isEdit ? 'Edit' : 'Tambah' }} Trayek/Rute</span>
+        <RouterLink to="/" title="/">Home</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi/trayek" title="/pengaturan/aplikasi/trayek">Trayek / Rute</RouterLink> &gt; <span>{{ isEdit ? 'Edit' : 'Tambah' }} Trayek/Rute</span>
       </div>
     </div>
 
@@ -15,7 +15,10 @@
         </div>
         <div class="form-group">
           <label>Cabang Pengelola <span>*</span></label>
-          <input type="text" v-model="form.cabang" class="form-control" placeholder="PT. Maju Berkah" />
+          <select v-model="form.cabang" class="form-control">
+            <option value="">Pilih Cabang Pengelola</option>
+            <option v-for="(cabang, idx) in cabangList" :key="idx" :value="cabang.nama">{{ cabang.nama }}</option>
+          </select>
         </div>
       </div>
 
@@ -73,6 +76,7 @@ const route = useRoute();
 
 const isEdit = computed(() => !!route.params.id);
 const kotaList = ref([]);
+const cabangList = ref([]);
 
 const form = ref({
   kode: '',
@@ -92,6 +96,38 @@ const loadKota = async () => {
     }
   } catch (error) {
     console.error("Error loading kota:", error);
+  }
+};
+
+const loadCabang = async () => {
+  try {
+    const list = [];
+    // 1. Ambil nama perusahaan pusat dari AppSettings
+    try {
+      const resPusat = await axios.get('/api/app-settings?group=perusahaan_pusat');
+      const namaPusat = resPusat.data.find(item => item.key === 'nama_perusahaan');
+      if (namaPusat && namaPusat.value) {
+        list.push({ nama: namaPusat.value + ' (Pusat)' });
+      }
+    } catch (e) {
+      console.error("Error loading kantor pusat:", e);
+    }
+    
+    // 2. Ambil daftar kantor cabang
+    try {
+      const resCabang = await axios.get('/api/perusahaan');
+      if (resCabang.data.success) {
+        resCabang.data.data.forEach(c => {
+          list.push({ nama: c.nama + ' (Cabang)' });
+        });
+      }
+    } catch (e) {
+      console.error("Error loading kantor cabang:", e);
+    }
+    
+    cabangList.value = list;
+  } catch (error) {
+    console.error("Error in loadCabang:", error);
   }
 };
 
@@ -141,6 +177,7 @@ const saveData = async () => {
 };
 
 onMounted(async () => {
+  await loadCabang();
   await loadKota();
   await loadData();
 });

@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>Trayek / Rute</h1>
       <div class="breadcrumb">
-        <span>Home</span> &gt; <span>Pengaturan Aplikasi</span> &gt; <span>Trayek / Rute</span>
+        <RouterLink to="/" title="/">Home</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> &gt; <span>Trayek / Rute</span>
       </div>
     </div>
 

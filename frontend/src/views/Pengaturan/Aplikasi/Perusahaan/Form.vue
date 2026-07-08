@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>{{ isEdit ? 'Edit' : 'Tambah' }} Perusahaan/Cabang</h1>
       <div class="breadcrumb">
-        <span>Home</span> &gt; <span>Pengaturan Aplikasi</span> &gt; <span style="cursor: pointer" @click="router.push('/pengaturan/perusahaan?tab=cabang')">Perusahaan / Cabang</span> &gt; <span>{{ isEdit ? 'Edit' : 'Tambah' }} Perusahaan</span>
+        <RouterLink to="/" title="/">Home</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> &gt; <span style="cursor: pointer" @click="router.push('/pengaturan/perusahaan?tab=cabang')">Perusahaan / Cabang</span> &gt; <span>{{ isEdit ? 'Edit' : 'Tambah' }} Perusahaan</span>
       </div>
     </div>
 

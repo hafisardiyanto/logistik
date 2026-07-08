@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>{{ isDetail ? 'Detail' : (form.id ? 'Edit' : 'Tambah') }} Layanan Logistik</h1>
       <div class="breadcrumb">
-        <span>Home</span> > <span>Pengaturan Aplikasi</span> > <span>Jenis Layanan Logistik</span> > <span>{{ isDetail ? 'Detail' : (form.id ? 'Edit' : 'Tambah') }} Layanan</span>
+        <RouterLink to="/" title="/">Home</RouterLink> > <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> > <span>Jenis Layanan Logistik</span> > <span>{{ isDetail ? 'Detail' : (form.id ? 'Edit' : 'Tambah') }} Layanan</span>
       </div>
       
     </div>
@@ -109,6 +109,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 

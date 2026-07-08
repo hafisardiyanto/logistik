@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>Jenis Satuan</h1>
       <div class="breadcrumb">
-        <span>Home</span> &gt; <span>Pengaturan Aplikasi</span> &gt; <span>Jenis Satuan</span>
+        <RouterLink to="/" title="/">Home</RouterLink> &gt; <RouterLink to="/pengaturan/aplikasi" title="/pengaturan/aplikasi">Pengaturan Aplikasi</RouterLink> &gt; <span>Jenis Satuan</span>
       </div>
     </div>
 
@@ -105,6 +105,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 
