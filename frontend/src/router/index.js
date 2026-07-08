@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Login from "../views/Login.vue";
 import PengaturanAplikasi from "../views/Pengaturan/Aplikasi.vue";
-import PengaturanUser from "../views/Pengaturan/User.Vue";
+import PengaturanUser from "../views/Pengaturan/User.vue";
 
 import Kendaraan from "../views/Pengaturan/Kendaraan/Index.vue";
 import Pabrikan from "../views/Pengaturan/Kendaraan/Pabrikan.vue";
-import Tipe from "../views/Pengaturan/Kendaraan/Tipe.Vue";
+import Tipe from "../views/Pengaturan/Kendaraan/Tipe.vue";
 import Equipment from "../views/Pengaturan/Kendaraan/Equipment.vue";
 import Body from "../views/Pengaturan/Kendaraan/Body.vue";
 import Axel from "../views/Pengaturan/Kendaraan/Axel.vue";
