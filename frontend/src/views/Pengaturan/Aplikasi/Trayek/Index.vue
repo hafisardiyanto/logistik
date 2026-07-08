@@ -90,7 +90,7 @@ const perPage = ref(10);
 
 const fetchData = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/trayek');
+    const res = await axios.get('/api/trayek');
     if (res.data.success) {
       listData.value = res.data.data;
     }
@@ -129,7 +129,7 @@ const goToForm = (id = null) => {
 const deleteItem = async (id) => {
   if (!confirm("Apakah Anda yakin ingin menghapus data trayek ini?")) return;
   try {
-    const res = await axios.delete(`http://localhost:3000/api/trayek/${id}`);
+    const res = await axios.delete(`/api/trayek/${id}`);
     if (res.data.success) {
       fetchData();
     }

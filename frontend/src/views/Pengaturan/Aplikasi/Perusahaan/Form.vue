@@ -80,7 +80,7 @@ const form = ref({
 const loadData = async () => {
   if (!isEdit.value) return;
   try {
-    const res = await axios.get(`http://localhost:3000/api/perusahaan/${route.params.id}`);
+    const res = await axios.get(`/api/perusahaan/${route.params.id}`);
     if (res.data.success) {
       const data = res.data.data;
       form.value = {
@@ -108,9 +108,9 @@ const saveData = async () => {
   try {
     let res;
     if (isEdit.value) {
-      res = await axios.put(`http://localhost:3000/api/perusahaan/${route.params.id}`, form.value);
+      res = await axios.put(`/api/perusahaan/${route.params.id}`, form.value);
     } else {
-      res = await axios.post('http://localhost:3000/api/perusahaan', form.value);
+      res = await axios.post('/api/perusahaan', form.value);
     }
     
     if (res.data.success) {

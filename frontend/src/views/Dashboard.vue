@@ -403,7 +403,7 @@ const newUser = reactive({
 // Fetch Users from API
 const fetchUsers = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/users')
+    const res = await axios.get('/api/users')
     usersList.value = res.data
   } catch (error) {
     console.error('Error fetching users', error)
@@ -413,7 +413,7 @@ const fetchUsers = async () => {
 // Fetch Roles from API
 const fetchRoles = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/roles')
+    const res = await axios.get('/api/roles')
     rolesList.value = res.data
   } catch (error) {
     console.error('Error fetching roles', error)
@@ -473,9 +473,9 @@ const editRole = (role) => {
 const submitRoleForm = async () => {
   try {
     if (isEditingRole.value) {
-      await axios.put(`http://localhost:3000/api/roles/${currentEditRoleId.value}`, roleForm)
+      await axios.put(`/api/roles/${currentEditRoleId.value}`, roleForm)
     } else {
-      await axios.post('http://localhost:3000/api/roles', roleForm)
+      await axios.post('/api/roles', roleForm)
     }
     showRoleModal.value = false
     fetchRoles()
@@ -487,7 +487,7 @@ const submitRoleForm = async () => {
 const deleteRole = async (id) => {
   if(confirm('Yakin ingin menghapus role ini? Semua user di role ini mungkin kehilangan akses.')) {
     try {
-      await axios.delete(`http://localhost:3000/api/roles/${id}`)
+      await axios.delete(`/api/roles/${id}`)
       fetchRoles()
     } catch (error) {
       alert('Gagal menghapus role')
@@ -498,7 +498,7 @@ const deleteRole = async (id) => {
 // Submit Add User
 const submitAddUser = async () => {
   try {
-    await axios.post('http://localhost:3000/api/users', newUser)
+    await axios.post('/api/users', newUser)
     showAddUserModal.value = false
     newUser.name = ''
     newUser.email = ''
@@ -514,7 +514,7 @@ const submitAddUser = async () => {
 const deleteUser = async (id) => {
   if(confirm('Yakin ingin menghapus user ini?')) {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${id}`)
+      await axios.delete(`/api/users/${id}`)
       fetchUsers()
     } catch (error) {
       alert('Gagal menghapus')
@@ -539,7 +539,7 @@ onMounted(async () => {
   const token = localStorage.getItem('token')
   if (token) {
     try {
-      const res = await axios.get('http://localhost:3000/api/auth/me', {
+      const res = await axios.get('/api/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
       // Update currentUser dan permissions dengan data terbaru dari DB

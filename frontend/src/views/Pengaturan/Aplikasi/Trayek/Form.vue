@@ -86,7 +86,7 @@ const form = ref({
 
 const loadKota = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/lokasi/kota');
+    const res = await axios.get('/api/lokasi/kota');
     if (res.data.success) {
       kotaList.value = res.data.data;
     }
@@ -98,7 +98,7 @@ const loadKota = async () => {
 const loadData = async () => {
   if (!isEdit.value) return;
   try {
-    const res = await axios.get(`http://localhost:3000/api/trayek/${route.params.id}`);
+    const res = await axios.get(`/api/trayek/${route.params.id}`);
     if (res.data.success) {
       const data = res.data.data;
       form.value = {
@@ -127,9 +127,9 @@ const saveData = async () => {
   try {
     let res;
     if (isEdit.value) {
-      res = await axios.put(`http://localhost:3000/api/trayek/${route.params.id}`, form.value);
+      res = await axios.put(`/api/trayek/${route.params.id}`, form.value);
     } else {
-      res = await axios.post('http://localhost:3000/api/trayek', form.value);
+      res = await axios.post('/api/trayek', form.value);
     }
     
     if (res.data.success) {

@@ -129,7 +129,7 @@ const form = ref({
 
 const getGroupLayanan = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/group-layanan');
+    const response = await axios.get('/api/group-layanan');
     if (response.data.success) {
       groupLayananList.value = response.data.data;
     }
@@ -140,7 +140,7 @@ const getGroupLayanan = async () => {
 
 const getJenisLayanan = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/jenis-layanan');
+    const response = await axios.get('/api/jenis-layanan');
     if (response.data.success) {
       jenisLayananList.value = response.data.data;
     }
@@ -159,10 +159,10 @@ const simpanData = async () => {
     let response;
     if (form.value.id) {
       // Edit
-      response = await axios.put(`http://localhost:3000/api/jenis-layanan/${form.value.id}`, form.value);
+      response = await axios.put(`/api/jenis-layanan/${form.value.id}`, form.value);
     } else {
       // Create
-      response = await axios.post('http://localhost:3000/api/jenis-layanan', form.value);
+      response = await axios.post('/api/jenis-layanan', form.value);
     }
 
     if (response.data.success) {
@@ -208,7 +208,7 @@ const hapusData = async (id) => {
   if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
 
   try {
-    const response = await axios.delete(`http://localhost:3000/api/jenis-layanan/${id}`);
+    const response = await axios.delete(`/api/jenis-layanan/${id}`);
     if (response.data.success) {
       alert("Data berhasil dihapus!");
       getJenisLayanan();

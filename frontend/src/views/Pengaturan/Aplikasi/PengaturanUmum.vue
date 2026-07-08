@@ -129,7 +129,7 @@
 import { ref, onMounted } from "vue";
 
 
-const API_URL = "http://localhost:3000/api/app-settings";
+const API_URL = "/api/app-settings";
 
 const loading = ref(true);
 const saving = ref(false);

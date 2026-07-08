@@ -88,7 +88,7 @@ const perPage = ref(10);
 
 const fetchData = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/perusahaan');
+    const res = await axios.get('/api/perusahaan');
     if (res.data.success) {
       listData.value = res.data.data;
     }
@@ -127,7 +127,7 @@ const goToForm = (id = null) => {
 const deleteItem = async (id) => {
   if (!confirm("Apakah Anda yakin ingin menghapus data cabang ini?")) return;
   try {
-    const res = await axios.delete(`http://localhost:3000/api/perusahaan/${id}`);
+    const res = await axios.delete(`/api/perusahaan/${id}`);
     if (res.data.success) {
       fetchData();
     }

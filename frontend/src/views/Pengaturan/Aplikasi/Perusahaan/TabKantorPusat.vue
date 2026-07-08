@@ -132,7 +132,7 @@ const isEditing = ref(false);
 const saving = ref(false);
 const toast = ref({ show: false, message: '', type: 'success' });
 
-const API_URL = "http://localhost:3000/api/app-settings";
+const API_URL = "/api/app-settings";
 const settingsMap = ref({});
 
 const form = ref({

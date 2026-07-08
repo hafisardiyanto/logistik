@@ -134,7 +134,7 @@ const switchTab = (tab) => {
 
 const fetchData = async () => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/lokasi/${currentTab.value}`);
+    const res = await axios.get(`/api/lokasi/${currentTab.value}`);
     if (res.data.success) {
       listData.value = res.data.data;
     }
@@ -151,7 +151,7 @@ const loadParentsData = async () => {
     if (currentTab.value === 'kecamatan') endpoint = 'kota';
     
     if (endpoint) {
-      const res = await axios.get(`http://localhost:3000/api/lokasi/${endpoint}`);
+      const res = await axios.get(`/api/lokasi/${endpoint}`);
       if (res.data.success) {
         parentsData.value = res.data.data;
       }
@@ -190,9 +190,9 @@ const saveData = async () => {
   try {
     let res;
     if (form.value.id) {
-      res = await axios.put(`http://localhost:3000/api/lokasi/${currentTab.value}/${form.value.id}`, form.value);
+      res = await axios.put(`/api/lokasi/${currentTab.value}/${form.value.id}`, form.value);
     } else {
-      res = await axios.post(`http://localhost:3000/api/lokasi/${currentTab.value}`, form.value);
+      res = await axios.post(`/api/lokasi/${currentTab.value}`, form.value);
     }
     if (res.data.success) {
       closeModal();
@@ -206,7 +206,7 @@ const saveData = async () => {
 const deleteItem = async (id) => {
   if (!confirm("Hapus data ini? (Data turunan mungkin juga akan terhapus)")) return;
   try {
-    const res = await axios.delete(`http://localhost:3000/api/lokasi/${currentTab.value}/${id}`);
+    const res = await axios.delete(`/api/lokasi/${currentTab.value}/${id}`);
     if (res.data.success) {
       fetchData();
     }

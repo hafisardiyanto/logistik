@@ -122,7 +122,7 @@ const form = ref({
 
 const fetchData = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/tipe-container');
+    const res = await axios.get('/api/tipe-container');
     if (res.data.success) {
       listData.value = res.data.data;
     }
@@ -168,9 +168,9 @@ const saveData = async () => {
   try {
     let res;
     if (form.value.id) {
-      res = await axios.put(`http://localhost:3000/api/tipe-container/${form.value.id}`, form.value);
+      res = await axios.put(`/api/tipe-container/${form.value.id}`, form.value);
     } else {
-      res = await axios.post('http://localhost:3000/api/tipe-container', form.value);
+      res = await axios.post('/api/tipe-container', form.value);
     }
     if (res.data.success) {
       alert("Data berhasil disimpan");
@@ -185,7 +185,7 @@ const saveData = async () => {
 const deleteItem = async (id) => {
   if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
   try {
-    const res = await axios.delete(`http://localhost:3000/api/tipe-container/${id}`);
+    const res = await axios.delete(`/api/tipe-container/${id}`);
     if (res.data.success) {
       fetchData();
     }
@@ -259,7 +259,7 @@ const handleImportFile = (event) => {
 
     if (importData.length > 0) {
       try {
-        const res = await axios.post('http://localhost:3000/api/tipe-container/bulk', importData);
+        const res = await axios.post('/api/tipe-container/bulk', importData);
         if (res.data.success) {
           alert(res.data.message);
           fetchData();

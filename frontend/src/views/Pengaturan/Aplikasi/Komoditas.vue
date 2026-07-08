@@ -124,7 +124,7 @@ const form = ref({
 
 const fetchData = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/komoditas');
+    const res = await axios.get('/api/komoditas');
     if (res.data.success) {
       listData.value = res.data.data;
     }
@@ -170,9 +170,9 @@ const saveData = async () => {
   try {
     let res;
     if (form.value.id) {
-      res = await axios.put(`http://localhost:3000/api/komoditas/${form.value.id}`, form.value);
+      res = await axios.put(`/api/komoditas/${form.value.id}`, form.value);
     } else {
-      res = await axios.post('http://localhost:3000/api/komoditas', form.value);
+      res = await axios.post('/api/komoditas', form.value);
     }
     if (res.data.success) {
       alert("Data berhasil disimpan");
@@ -187,7 +187,7 @@ const saveData = async () => {
 const deleteItem = async (id) => {
   if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
   try {
-    const res = await axios.delete(`http://localhost:3000/api/komoditas/${id}`);
+    const res = await axios.delete(`/api/komoditas/${id}`);
     if (res.data.success) {
       fetchData();
     }
@@ -261,7 +261,7 @@ const handleImportFile = (event) => {
 
     if (importData.length > 0) {
       try {
-        const res = await axios.post('http://localhost:3000/api/komoditas/bulk', importData);
+        const res = await axios.post('/api/komoditas/bulk', importData);
         if (res.data.success) {
           alert(res.data.message);
           fetchData();
