@@ -273,7 +273,27 @@ const routes = [
   }
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes
 });
+
+// Global Navigation Guard untuk mencegah akses tanpa login
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('token');
+  
+  // Jika rute butuh login (semua kecuali /login) dan belum ada token
+  if (to.path !== '/login' && !isAuthenticated) {
+    next('/login');
+  } 
+  // Jika sudah login dan mencoba ke halaman login, kembalikan ke beranda
+  else if (to.path === '/login' && isAuthenticated) {
+    next('/');
+  } 
+  // Lanjutkan perjalanan rute normal
+  else {
+    next();
+  }
+});
+
+export default router;
