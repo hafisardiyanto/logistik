@@ -1,36 +1,40 @@
 <template>
   <div class="dashboard-layout">
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" :class="{ collapsed: sidebarCollapsed }" :style="{ width: sidebarCollapsed ? '64px' : sidebarWidth + 'px' }">
       <div class="sidebar-header">
-        <h2 class="logo-text">Management Order</h2>
+        <h2 class="logo-text" v-show="!sidebarCollapsed">Management Order</h2>
+        <button class="sidebar-toggle-btn" @click="toggleSidebar" :title="sidebarCollapsed ? 'Buka Sidebar' : 'Tutup Sidebar'">
+          <span v-if="sidebarCollapsed">☰</span>
+          <span v-else>✕</span>
+        </button>
       </div>
       
       <div class="sidebar-scroll">
         <div class="menu-section">
-          <a href="#" class="menu-item"><i class="icon">🏠</i> Home</a>
+          <a href="#" class="menu-item"><i class="icon">🏠</i> <span class="menu-text">Home</span></a>
           
           <!-- Dropdown Dashboard -->
           <div class="menu-group">
             <div class="menu-item has-dropdown" @click="toggleMenu('dashboard')">
-              <span><i class="icon">📈</i> Dashboard</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">📈</i> <span class="menu-text">Dashboard</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.dashboard">
+            <div class="submenu" v-show="openMenus.dashboard && !sidebarCollapsed">
               <a href="#">Rekap Pengiriman</a>
               <a href="#">Batal Muat</a>
             </div>
           </div>
         </div>
 
-        <div class="menu-label" v-if="hasPermission('Kontak', 'canRead')">DATA</div>
+        <div class="menu-label" v-if="hasPermission('Kontak', 'canRead')" v-show="!sidebarCollapsed">DATA</div>
         <div class="menu-section" v-if="hasPermission('Kontak', 'canRead')">
           <div class="menu-group">
             <div class="menu-item has-dropdown" @click="toggleMenu('data')">
-              <span><i class="icon">👥</i> Kontak</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">👥</i> <span class="menu-text">Kontak</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.data">
+            <div class="submenu" v-show="openMenus.data && !sidebarCollapsed">
               <a href="#">Pegawai</a>
               <a href="#">Pelanggan</a>
               <a href="#">Vendor Logistik</a>
@@ -39,14 +43,14 @@
           </div>
         </div>
 
-        <div class="menu-label" v-if="hasPermission('Tarif Logistik', 'canRead') || hasPermission('Pemasaran', 'canRead')">TARIF & KONTRAK</div>
+        <div class="menu-label" v-if="hasPermission('Tarif Logistik', 'canRead') || hasPermission('Pemasaran', 'canRead')" v-show="!sidebarCollapsed">TARIF & KONTRAK</div>
         <div class="menu-section">
           <div class="menu-group" v-if="hasPermission('Tarif Logistik', 'canRead')">
             <div class="menu-item has-dropdown" @click="toggleMenu('tarif')">
-              <span><i class="icon">🏷️</i> Tarif</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">🏷️</i> <span class="menu-text">Tarif</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.tarif">
+            <div class="submenu" v-show="openMenus.tarif && !sidebarCollapsed">
               <a href="#">Tarif Logistik Umum</a>
               <a href="#">Tarif Kontrak</a>
               <a href="#">Tarif Vendor</a>
@@ -54,10 +58,10 @@
           </div>
           <div class="menu-group" v-if="hasPermission('Pemasaran', 'canRead')">
             <div class="menu-item has-dropdown" @click="toggleMenu('pemasaran')">
-              <span><i class="icon">📢</i> Pemasaran</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">📢</i> <span class="menu-text">Pemasaran</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.pemasaran">
+            <div class="submenu" v-show="openMenus.pemasaran && !sidebarCollapsed">
               <a href="#">Daftar Lead</a>
               <a href="#">Permintaan Penawaran</a>
               <a href="#">Penawaran Harga</a>
@@ -66,14 +70,14 @@
           </div>
         </div>
 
-        <div class="menu-label" v-if="hasPermission('Order', 'canRead') || hasPermission('Kapal & Kontainer', 'canRead')">TRANSAKSI & OPERASIONAL</div>
+        <div class="menu-label" v-if="hasPermission('Order', 'canRead') || hasPermission('Kapal & Kontainer', 'canRead')" v-show="!sidebarCollapsed">TRANSAKSI & OPERASIONAL</div>
         <div class="menu-section" v-if="hasPermission('Order', 'canRead') || hasPermission('Kapal & Kontainer', 'canRead')">
           <div class="menu-group" v-if="hasPermission('Order', 'canRead')">
             <div class="menu-item has-dropdown" @click="toggleMenu('order')">
-              <span><i class="icon">📦</i> Order</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">📦</i> <span class="menu-text">Order</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.order">
+            <div class="submenu" v-show="openMenus.order && !sidebarCollapsed">
               <a href="#">Work Order</a>
               <a href="#">Job Order</a>
               <a href="#">Manifest/Packing List</a>
@@ -87,14 +91,14 @@
         
         </div>
 
-        <div class="menu-label" v-if="hasPermission('Data Kendaraan', 'canRead')">MANAJEMEN KENDARAAN</div>
+        <div class="menu-label" v-if="hasPermission('Data Kendaraan', 'canRead')" v-show="!sidebarCollapsed">MANAJEMEN KENDARAAN</div>
         <div class="menu-section" v-if="hasPermission('Data Kendaraan', 'canRead')">
           <div class="menu-group">
             <div class="menu-item has-dropdown" @click="toggleMenu('kendaraan')">
-              <span><i class="icon">🚚</i> Data Kendaraan</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">🚚</i> <span class="menu-text">Data Kendaraan</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-            <div class="submenu" v-show="openMenus.kendaraan">
+            <div class="submenu" v-show="openMenus.kendaraan && !sidebarCollapsed">
               <a href="#">Daftar Kendaraan</a>
               <a href="#">Trailer</a>
               <a href="#">ISO Tank Container</a>
@@ -102,14 +106,14 @@
           </div>
         </div>
 
-        <div class="menu-label" v-if="isSuperAdmin">PENGATURAN</div>
+        <div class="menu-label" v-if="isSuperAdmin" v-show="!sidebarCollapsed">PENGATURAN</div>
         <div class="menu-section" v-if="isSuperAdmin">
           <div class="menu-group">
             <div class="menu-item has-dropdown active" @click="toggleMenu('pengaturan')">
-              <span><i class="icon">⚙️</i> Pengaturan Umum</span>
-              <span class="arrow">⌄</span>
+              <span><i class="icon">⚙️</i> <span class="menu-text">Pengaturan Umum</span></span>
+              <span class="arrow menu-text">⌄</span>
             </div>
-           <div class="submenu" v-show="openMenus.pengaturan">
+           <div class="submenu" v-show="openMenus.pengaturan && !sidebarCollapsed">
 
     <RouterLink to="/pengaturan/aplikasi">
         Pengaturan Aplikasi
@@ -133,8 +137,14 @@
       </div>
       
       <div class="sidebar-footer">
-        <button @click="handleLogout" class="btn-logout">Logout</button>
+        <button @click="handleLogout" class="btn-logout">
+          <span v-if="sidebarCollapsed">🚪</span>
+          <span v-else>Logout</span>
+        </button>
       </div>
+
+      <!-- Resize Handle (garis tarik untuk mengubah lebar sidebar) -->
+      <div class="sidebar-resize-handle" @mousedown="startResize" v-show="!sidebarCollapsed"></div>
     </aside>
 
     <!-- Main Content -->
@@ -342,12 +352,48 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, onUnmounted, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const router = useRouter()
 const currentTab = ref('users')
+
+// === Sidebar State ===
+const sidebarCollapsed = ref(false)
+const sidebarWidth = ref(280)
+const isResizing = ref(false)
+const MIN_WIDTH = 200
+const MAX_WIDTH = 450
+
+const toggleSidebar = () => {
+  sidebarCollapsed.value = !sidebarCollapsed.value
+}
+
+// Resize sidebar dengan drag
+const startResize = (e) => {
+  isResizing.value = true
+  document.body.style.cursor = 'col-resize'
+  document.body.style.userSelect = 'none'
+
+  const onMouseMove = (event) => {
+    const newWidth = event.clientX
+    if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
+      sidebarWidth.value = newWidth
+    }
+  }
+
+  const onMouseUp = () => {
+    isResizing.value = false
+    document.body.style.cursor = ''
+    document.body.style.userSelect = ''
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+  }
+
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
+}
 const showAddUserModal = ref(false)
 const currentUser = ref(null)
 
