@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  cabang    String   @default("Pusat")
+  status    String   @default("Aktif")
+  verified  String   @default("Unverified")
+  roleId    Int?
+  role      Role?    @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  users       User[]
+  permissions Permission[]
+}
+
+model Permission {
+  id        Int     @id @default(autoincrement())
+  module    String
+  canCreate Boolean @default(false)
+  canRead   Boolean @default(false)
+  canUpdate Boolean @default(false)
+  canDelete Boolean @default(false)
+  roleId    Int
+  role      Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+}
+
+model AppSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  label     String
+  value     String   @db.Text
+  type      String   @default("text")
+  group     String   @default("umum")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+ 
+model GroupLayanan{
+
+  id Int @id @default(autoincrement())
+
+  kode String @unique
+
+  nama String
+
+  is_active Boolean @default(true)
+
+  JenisLayanan JenisLayanan[]
+}
+
+model JenisLayanan{
+
+  id Int @id @default(autoincrement())
+
+  kode String
+
+  nama String
+
+  keterangan String?
+
+  default Boolean @default(false)
+
+  aktif Boolean @default(true)
+
+  groupId Int
+  group GroupLayanan @relation(fields:[groupId],references:[id])
+}
+
+model JenisSatuan {
+  id      Int     @id @default(autoincrement())
+  nama    String  @unique
+  default Boolean @default(false)
+}
+
+model TipeContainer {
+  id      Int     @id @default(autoincrement())
+  nama    String  @unique
+  ukuran  String? @default("-")
+}
+
+model Komoditas {
+  id      Int     @id @default(autoincrement())
+  nama    String  @unique
+  default Boolean @default(false)
+}
+
+model Negara {
+  id        Int        @id @default(autoincrement())
+  nama      String     @unique
+  aktif     Boolean    @default(true)
+  provinsi  Provinsi[]
+}
+
+model Provinsi {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  aktif     Boolean  @default(true)
+  negaraId  Int
+  negara    Negara   @relation(fields: [negaraId], references: [id], onDelete: Cascade)
+  kota      Kota[]
+}
+
+model Kota {
+  id         Int         @id @default(autoincrement())
+  nama       String
+  aktif      Boolean     @default(true)
+  provinsiId Int
+  provinsi   Provinsi    @relation(fields: [provinsiId], references: [id], onDelete: Cascade)
+  kecamatan  Kecamatan[]
+
+  trayekAsal   Trayek[] @relation("KotaAsal")
+  trayekTujuan Trayek[] @relation("KotaTujuan")
+}
+
+model Kecamatan {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  aktif     Boolean  @default(true)
+  kotaId    Int
+  kota      Kota     @relation(fields: [kotaId], references: [id], onDelete: Cascade)
+}
+
+model Trayek {
+  id           Int     @id @default(autoincrement())
+  kode         String  @unique
+  nama         String
+  cabang       String?
+  kotaAsalId   Int
+  kotaTujuanId Int
+  keterangan   String? @db.Text
+  aktif        Boolean @default(true)
+
+  kotaAsal   Kota @relation("KotaAsal", fields: [kotaAsalId], references: [id])
+  kotaTujuan Kota @relation("KotaTujuan", fields: [kotaTujuanId], references: [id])
+}
+
+model Perusahaan {
+  id         Int      @id @default(autoincrement())
+  kode       String   @unique
+  nama       String
+  npwp       String?
+  telepon    String?
+  email      String?
+  alamat     String?  @db.Text
+  aktif      Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

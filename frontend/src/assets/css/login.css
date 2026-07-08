@@ -1,0 +1,331 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0f172a; /* Warna Navy Gelap khas aplikasi industri */
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ornamen Background */
+.background-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+}
+
+.shape-1 {
+  background: #3b82f6;
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+}
+
+.shape-2 {
+  background: #f59e0b;
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.shape-3 {
+  background: #8b5cf6;
+  width: 250px;
+  height: 250px;
+  bottom: 20%;
+  left: 30%;
+}
+
+.login-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  overflow: hidden;
+  max-width: 950px;
+  width: 100%;
+  min-height: 550px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ============================
+   PANEL KIRI (ILLUSTRATION)
+   ============================ */
+.illustration-panel {
+  flex: 1.2;
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 50px;
+  position: relative;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+@media (max-width: 800px) {
+  .illustration-panel {
+    display: none;
+  }
+}
+
+.brand-title {
+  margin-top: 60px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #f8fafc;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.brand-desc {
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 85%;
+}
+
+/* CSS TRUCK ANIMATION */
+.css-truck {
+  position: relative;
+  width: 180px;
+  height: 90px;
+  animation: drive 2.5s infinite ease-in-out alternate;
+}
+
+.truck-body {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  width: 125px;
+  height: 75px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 10px 0 0 0;
+  box-shadow: inset -5px 0 rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.truck-body::after {
+  content: "EXPRESS";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-style: italic;
+}
+
+.truck-head {
+  position: absolute;
+  bottom: 18px;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background-color: #f59e0b;
+  border-radius: 0 12px 0 0;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.truck-head::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -6px;
+  width: 12px;
+  height: 22px;
+  background-color: #d97706;
+  border-radius: 0 6px 6px 0;
+}
+
+.window {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 25px;
+  height: 20px;
+  background-color: #e0f2fe;
+  border-radius: 0 6px 0 0;
+  border-left: 2px solid #334155;
+}
+
+.wheels {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.wheel {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background-color: #0f172a;
+  border-radius: 50%;
+  bottom: 2px;
+  border: 4px solid #cbd5e1;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  animation: spin 0.6s infinite linear;
+}
+
+.wheel-1 { left: 15px; }
+.wheel-2 { left: 85px; }
+.wheel-3 { right: 10px; }
+
+.road-lines {
+  position: absolute;
+  bottom: 0;
+  left: -30px;
+  width: 240px;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.7) 0, rgba(255,255,255,0.7) 18px, transparent 18px, transparent 36px);
+  animation: roadMove 0.6s infinite linear;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes roadMove {
+  100% { transform: translateX(-36px); }
+}
+
+@keyframes drive {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+
+/* ============================
+   PANEL KANAN (FORM LOGIN)
+   ============================ */
+.login-card {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.login-header {
+  margin-bottom: 40px;
+}
+
+h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #334155;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 15px;
+  color: #0f172a;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #f8fafc;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.btn-login:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+.btn-login:disabled {
+  background: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 4px solid #ef4444;
+}

@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. Layanan Database (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: logistics_db
+    restart: always
+    environment:
+      # Mengizinkan password kosong karena di .env lokal menggunakan root tanpa password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: logistics
+    ports:
+      - "3308:3306"
+    volumes:
+      # Mount data mysql ke volume lokal agar data tidak hilang saat container mati
+      - db_data:/var/lib/mysql
+
+  # 2. Layanan Backend (Node.js + Prisma)
+  backend:
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    container_name: logistics_backend
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      # Mengganti localhost dengan nama service 'db' agar bisa terkoneksi di dalam jaringan Docker
+      DATABASE_URL: "mysql://root:@db:3306/logistics"
+      PORT: 3000
+
+  # 3. Layanan Frontend (Vue.js + Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: logistics_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      # Memetakan port 8088 di server ke port 80 (Nginx) di dalam container
+      - "8088:80"
+
+# Deklarasi Volume untuk penyimpanan persisten
+volumes:
+  db_data:

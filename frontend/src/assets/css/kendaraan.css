@@ -1,0 +1,114 @@
+.kendaraan-container {
+
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    background: #f6f7fb;
+    min-height: 100vh;
+
+}
+
+.kendaraan-card {
+
+    width: 430px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+
+}
+
+.setting-header {
+
+    display: flex;
+    gap: 18px;
+    margin-bottom: 25px;
+
+}
+
+.setting-icon {
+
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: #ffe9f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+
+}
+
+.setting-title h2 {
+
+    margin: 0;
+    font-size: 22px;
+
+}
+
+.setting-title p {
+
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 22px;
+
+}
+
+.kendaraan-menu-item {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #0b63d1;
+    padding: 18px 0;
+    border-bottom: 1px solid #ececec;
+
+    transition: .25s;
+
+}
+
+.menu-item:hover {
+
+    color: #ff0a7a;
+
+}
+
+.kendaraan-left {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.kendaraan-badge {
+
+    background: #f1e6ff;
+    color: #8c3cff;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 30px;
+
+}
+
+.kendaraan-arrow {
+
+    width: 34px;
+    height: 34px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #8f8f8f;
+    font-size: 22px;
+
+}
+
+.menu-item:last-child {
+
+    border: none;
+
+}

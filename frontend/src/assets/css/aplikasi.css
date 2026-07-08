@@ -1,0 +1,127 @@
+.aplikasi-container {
+    padding: 30px;
+    background: #fdfdfd;
+    min-height: 100vh;
+}
+
+.page-title {
+    margin-bottom: 25px;
+}
+.page-title h1 {
+    font-size: 24px;
+    margin: 0 0 5px 0;
+    color: #111827;
+}
+.page-breadcrumb {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+    align-items: start;
+}
+
+.aplikasi-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.aplikasi-header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.aplikasi-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+/* Icon Colors */
+.icon-blue { background: #eff6ff; color: #3b82f6; }
+.icon-pink { background: #fdf2f8; color: #ec4899; }
+.icon-purple { background: #f3e8ff; color: #a855f7; }
+.icon-yellow { background: #fefce8; color: #eab308; }
+.icon-blue-alt { background: #f0fdf4; color: #0ea5e9; } /* for inventori */
+.icon-green { background: #f0fdf4; color: #22c55e; }
+
+.aplikasi-title h2 {
+    margin: 0;
+    font-size: 16px;
+    color: #111827;
+    font-weight: 700;
+}
+
+.aplikasi-title p {
+    margin-top: 4px;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.aplikasi-menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #0b63d1;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+    transition: .2s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.aplikasi-menu-item:hover {
+    color: #2563eb;
+}
+
+.aplikasi-menu-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.aplikasi-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aplikasi-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+.badge-wajib {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+.badge-baru {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.aplikasi-arrow {
+    width: 28px;
+    height: 28px;
+    background: #f9fafb;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9ca3af;
+    font-size: 18px;
+}
