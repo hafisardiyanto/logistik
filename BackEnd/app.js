@@ -23,6 +23,11 @@ const lokasiRoutes = require("./routes/lokasi.routes");
 const trayekRoutes = require("./routes/trayek.routes");
 const perusahaanRoutes = require("./routes/perusahaan.routes");
 const uploadRoutes = require("./routes/upload.routes");
+const kelompokBiayaRoutes = require("./routes/kelompokBiaya.routes");
+const pabrikanRoutes = require("./routes/pabrikan.routes");
+const tipeKendaraanRoutes = require("./routes/tipeKendaraan.routes");
+const kelengkapanKendaraanRoutes = require("./routes/kelengkapanKendaraan.routes");
+const bodyKendaraanRoutes = require("./routes/bodyKendaraan.routes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -37,6 +42,11 @@ app.use("/api/lokasi", lokasiRoutes);
 app.use("/api/trayek", trayekRoutes);
 app.use("/api/perusahaan", perusahaanRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/kelompok-biaya", kelompokBiayaRoutes);
+app.use("/api/pabrikan", pabrikanRoutes);
+app.use("/api/tipe-kendaraan", tipeKendaraanRoutes);
+app.use("/api/kelengkapan-kendaraan", kelengkapanKendaraanRoutes);
+app.use("/api/body-kendaraan", bodyKendaraanRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend Logistics Running 🚀");

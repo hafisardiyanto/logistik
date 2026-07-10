@@ -161,3 +161,68 @@ model Perusahaan {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model KelompokBiaya {
+  id            Int             @id @default(autoincrement())
+  kategoriId    Int?            
+  parent        KelompokBiaya?  @relation("KategoriKelompokBiaya", fields: [kategoriId], references: [id])
+  children      KelompokBiaya[] @relation("KategoriKelompokBiaya")
+  kodeAkun      String?
+  kode          String          @unique
+  nama          String
+  stdBiaya      Float           @default(0)
+  tipe          String?         @db.Text
+  keterangan    String?         @db.Text
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model TipePabrikan {
+  id        Int        @id @default(autoincrement())
+  nama      String     @unique
+  pabrikans Pabrikan[]
+}
+
+model Pabrikan {
+  id             Int          @id @default(autoincrement())
+  nama           String
+  tipePabrikanId Int
+  tipePabrikan   TipePabrikan @relation(fields: [tipePabrikanId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model TipeModa {
+  id             Int             @id @default(autoincrement())
+  nama           String          @unique
+  tipeKendaraans TipeKendaraan[]
+}
+
+model TipeKendaraan {
+  id              Int          @id @default(autoincrement())
+  nama            String
+  tipeModaId      Int
+  tipeModa        TipeModa     @relation(fields: [tipeModaId], references: [id])
+  kapasitasTonase Float        @default(0)
+  kapasitasKubikasi Float      @default(0)
+  rasioBbmMuat    Float        @default(0)
+  rasioBbmKosong  Float        @default(0)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model KelengkapanKendaraan {
+  id        Int      @id @default(autoincrement())
+  nama      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BodyKendaraan {
+  id              Int      @id @default(autoincrement())
+  nama            String   @unique
+  isPengecekan    Boolean  @default(true)
+  isAktif         Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
