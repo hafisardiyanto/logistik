@@ -16,7 +16,7 @@
 
     <div class="table-card">
       <div class="toolbar">
-        <button class="btn-primary" @click="openModal()">
+        <button class="btn-primary" @click="openModal()" v-if="hasPermission('Pengaturan', 'canCreate')">
           + Tambah {{ tabLabel }}
         </button>
       </div>
@@ -49,8 +49,8 @@
               </span>
             </td>
             <td style="text-align: right;">
-              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit">✎</button>
-              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus">🗑</button>
+              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit" v-if="hasPermission('Pengaturan', 'canUpdate')">✎</button>
+              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus" v-if="hasPermission('Pengaturan', 'canDelete')">🗑</button>
             </td>
           </tr>
         </tbody>
@@ -106,8 +106,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, inject } from 'vue';
 import axios from 'axios';
+
+const hasPermission = inject('hasPermission', () => true);
 
 const currentTab = ref('negara');
 const listData = ref([]);

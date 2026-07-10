@@ -15,14 +15,14 @@
           <a href="#" class="menu-item"><i class="icon">🏠</i> <span class="menu-text">Home</span></a>
           
           <!-- Dropdown Dashboard -->
-          <div class="menu-group">
+          <div class="menu-group" v-if="hasPermission('Dashboard', 'canRead')">
             <div class="menu-item has-dropdown" @click="toggleMenu('dashboard')">
               <span><i class="icon">📈</i> <span class="menu-text">Dashboard</span></span>
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.dashboard && !sidebarCollapsed">
-              <a href="#">Rekap Pengiriman</a>
-              <a href="#">Batal Muat</a>
+              <a href="#" v-if="hasPermission('Rekap Pengiriman', 'canRead')">Rekap Pengiriman</a>
+              <a href="#" v-if="hasPermission('Batal Muat', 'canRead')">Batal Muat</a>
             </div>
           </div>
         </div>
@@ -35,10 +35,10 @@
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.data && !sidebarCollapsed">
-              <a href="#">Pegawai</a>
-              <a href="#">Pelanggan</a>
-              <a href="#">Vendor Logistik</a>
-              <a href="#">Bengkel</a>
+              <a href="#" v-if="hasPermission('Pegawai', 'canRead')">Pegawai</a>
+              <a href="#" v-if="hasPermission('Pelanggan', 'canRead')">Pelanggan</a>
+              <a href="#" v-if="hasPermission('Vendor Logistik', 'canRead')">Vendor Logistik</a>
+              <a href="#" v-if="hasPermission('Bengkel', 'canRead')">Bengkel</a>
             </div>
           </div>
         </div>
@@ -51,9 +51,9 @@
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.tarif && !sidebarCollapsed">
-              <a href="#">Tarif Logistik Umum</a>
-              <a href="#">Tarif Kontrak</a>
-              <a href="#">Tarif Vendor</a>
+              <a href="#" v-if="hasPermission('Tarif Logistik Umum', 'canRead')">Tarif Logistik Umum</a>
+              <a href="#" v-if="hasPermission('Tarif Kontrak', 'canRead')">Tarif Kontrak</a>
+              <a href="#" v-if="hasPermission('Tarif Vendor', 'canRead')">Tarif Vendor</a>
             </div>
           </div>
           <div class="menu-group" v-if="hasPermission('Pemasaran', 'canRead')">
@@ -62,10 +62,10 @@
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.pemasaran && !sidebarCollapsed">
-              <a href="#">Daftar Lead</a>
-              <a href="#">Permintaan Penawaran</a>
-              <a href="#">Penawaran Harga</a>
-              <a href="#">Laporan</a>
+              <a href="#" v-if="hasPermission('Daftar Lead', 'canRead')">Daftar Lead</a>
+              <a href="#" v-if="hasPermission('Permintaan Penawaran', 'canRead')">Permintaan Penawaran</a>
+              <a href="#" v-if="hasPermission('Penawaran Harga', 'canRead')">Penawaran Harga</a>
+              <a href="#" v-if="hasPermission('Laporan Pemasaran', 'canRead')">Laporan</a>
             </div>
           </div>
         </div>
@@ -78,17 +78,27 @@
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.order && !sidebarCollapsed">
-              <a href="#">Work Order</a>
-              <a href="#">Job Order</a>
-              <a href="#">Manifest/Packing List</a>
-              <a href="#">Vendor Job</a>
-              <a href="#">Delivery Order</a>
-              <a href="#">Auto routing</a>
-              <a href="#">Operational Progress</a>
-              <a href="#">Laporan</a>
+              <a href="#" v-if="hasPermission('Work Order', 'canRead')">Work Order</a>
+              <a href="#" v-if="hasPermission('Job Order', 'canRead')">Job Order</a>
+              <a href="#" v-if="hasPermission('Manifest/Packing List', 'canRead')">Manifest/Packing List</a>
+              <a href="#" v-if="hasPermission('Vendor Job', 'canRead')">Vendor Job</a>
+              <a href="#" v-if="hasPermission('Delivery Order', 'canRead')">Delivery Order</a>
+              <a href="#" v-if="hasPermission('Auto routing', 'canRead')">Auto routing</a>
+              <a href="#" v-if="hasPermission('Operational Progress', 'canRead')">Operational Progress</a>
+              <a href="#" v-if="hasPermission('Laporan Order', 'canRead')">Laporan</a>
             </div>
           </div>
         
+          <div class="menu-group" v-if="hasPermission('Kapal & Kontainer', 'canRead')">
+            <div class="menu-item has-dropdown" @click="toggleMenu('kapal')">
+              <span><i class="icon">🚢</i> <span class="menu-text">Kapal & Kontainer</span></span>
+              <span class="arrow menu-text">⌄</span>
+            </div>
+            <div class="submenu" v-show="openMenus.kapal && !sidebarCollapsed">
+              <a href="#" v-if="hasPermission('Jadwal Kapal', 'canRead')">Jadwal Kapal</a>
+              <a href="#" v-if="hasPermission('Tracking Kontainer', 'canRead')">Tracking Kontainer</a>
+            </div>
+          </div>
         </div>
 
         <div class="menu-label" v-if="hasPermission('Data Kendaraan', 'canRead')" v-show="!sidebarCollapsed">MANAJEMEN KENDARAAN</div>
@@ -99,15 +109,15 @@
               <span class="arrow menu-text">⌄</span>
             </div>
             <div class="submenu" v-show="openMenus.kendaraan && !sidebarCollapsed">
-              <a href="#">Daftar Kendaraan</a>
-              <a href="#">Trailer</a>
-              <a href="#">ISO Tank Container</a>
+              <a href="#" v-if="hasPermission('Daftar Kendaraan', 'canRead')">Daftar Kendaraan</a>
+              <a href="#" v-if="hasPermission('Trailer', 'canRead')">Trailer</a>
+              <a href="#" v-if="hasPermission('ISO Tank Container', 'canRead')">ISO Tank Container</a>
             </div>
           </div>
         </div>
 
-        <div class="menu-label" v-if="isSuperAdmin" v-show="!sidebarCollapsed">PENGATURAN</div>
-        <div class="menu-section" v-if="isSuperAdmin">
+        <div class="menu-label" v-if="hasPermission('Pengaturan', 'canRead')" v-show="!sidebarCollapsed">PENGATURAN</div>
+        <div class="menu-section" v-if="hasPermission('Pengaturan', 'canRead')">
           <div class="menu-group">
             <div class="menu-item has-dropdown active" @click="toggleMenu('pengaturan')">
               <span><i class="icon">⚙️</i> <span class="menu-text">Pengaturan Umum</span></span>
@@ -115,19 +125,19 @@
             </div>
            <div class="submenu" v-show="openMenus.pengaturan && !sidebarCollapsed">
 
-    <RouterLink to="/pengaturan/aplikasi">
+    <RouterLink to="/pengaturan/aplikasi" v-if="hasPermission('Pengaturan Aplikasi', 'canRead')">
         Pengaturan Aplikasi
     </RouterLink>
 
-    <RouterLink to="/pengaturan/perusahaan">
+    <RouterLink to="/pengaturan/perusahaan" v-if="hasPermission('Pengaturan Perusahaan', 'canRead')">
         Pengaturan Perusahaan
     </RouterLink>
 
-    <RouterLink to="/pengaturan/user">
+    <RouterLink to="/pengaturan/user" v-if="hasPermission('Pengaturan User', 'canRead')">
         Pengaturan User
     </RouterLink>
 
-    <RouterLink to="/pengaturan/kendaraan">
+    <RouterLink to="/pengaturan/kendaraan" v-if="hasPermission('Setting Kendaraan', 'canRead')">
         Setting Kendaraan
     </RouterLink>
 
@@ -242,7 +252,7 @@
           </div>
 
           <!-- TAB: ROLE & PERMISSION -->
-          <div v-if="currentTab === 'roles'" class="table-card">
+          <div v-if="currentTab === 'roles' && hasPermission('Pengaturan', 'canRead')" class="table-card">
             <div class="table-header-toolbar">
               <div class="header-titles">
                 <h2>Manajemen Role & Privilege</h2>
@@ -330,8 +340,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(perm, idx) in roleForm.permissions" :key="idx">
-                  <td>{{ perm.module }}</td>
+                <tr v-for="(perm, idx) in roleForm.permissions" :key="idx" :style="isSubmenu(perm.module) ? 'background:#fdfdfd;' : 'background:#fafafa; font-weight:bold;'">
+                  <td :style="isSubmenu(perm.module) ? 'padding-left:30px; font-weight:normal; position:relative;' : ''">
+                    <span v-if="isSubmenu(perm.module)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#ccc;">↳</span>
+                    {{ perm.module }}
+                  </td>
                   <td><input type="checkbox" v-model="perm.canCreate"></td>
                   <td><input type="checkbox" v-model="perm.canRead"></td>
                   <td><input type="checkbox" v-model="perm.canUpdate"></td>
@@ -352,7 +365,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive, computed } from 'vue'
+import { ref, onMounted, onUnmounted, reactive, computed, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -431,6 +444,9 @@ const hasPermission = (module, action) => {
   return perm ? !!perm[action] : false;
 }
 
+provide('hasPermission', hasPermission)
+provide('isSuperAdmin', isSuperAdmin)
+
 const openMenus = reactive({
   dashboard: false,
   data: false,
@@ -482,9 +498,18 @@ const showRoleModal = ref(false)
 const isEditingRole = ref(false)
 const currentEditRoleId = ref(null)
 
+const parentModules = ['Dashboard', 'Kontak', 'Tarif Logistik', 'Pemasaran', 'Order', 'Kapal & Kontainer', 'Data Kendaraan', 'Pengaturan'];
+const isSubmenu = (mod) => !parentModules.includes(mod);
+
 const defaultModules = [
-  'Dashboard', 'Kontak', 'Tarif Logistik', 'Pemasaran', 
-  'Order', 'Kapal & Kontainer', 'Data Kendaraan', 'Pengaturan'
+  'Dashboard', 'Rekap Pengiriman', 'Batal Muat',
+  'Kontak', 'Pegawai', 'Pelanggan', 'Vendor Logistik', 'Bengkel',
+  'Tarif Logistik', 'Tarif Logistik Umum', 'Tarif Kontrak', 'Tarif Vendor',
+  'Pemasaran', 'Daftar Lead', 'Permintaan Penawaran', 'Penawaran Harga', 'Laporan Pemasaran',
+  'Order', 'Work Order', 'Job Order', 'Manifest/Packing List', 'Vendor Job', 'Delivery Order', 'Auto routing', 'Operational Progress', 'Laporan Order',
+  'Kapal & Kontainer', 'Jadwal Kapal', 'Tracking Kontainer',
+  'Data Kendaraan', 'Daftar Kendaraan', 'Trailer', 'ISO Tank Container',
+  'Pengaturan', 'Pengaturan Aplikasi', 'Pengaturan Perusahaan', 'Pengaturan User', 'Setting Kendaraan'
 ]
 
 const roleForm = reactive({
