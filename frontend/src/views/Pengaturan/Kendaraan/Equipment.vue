@@ -11,7 +11,7 @@
 
     <div class="card-container">
       <div class="card-header flex justify-end mb-4">
-        <button class="btn btn-primary" @click="openAddForm()">
+        <button class="btn btn-primary" @click="openAddForm()" v-if="hasPermission('Equipment', 'canCreate')">
           <i class="fas fa-plus"></i> Tambah Data
         </button>
       </div>
@@ -43,9 +43,9 @@
             <tr v-for="item in filteredData" :key="item.id">
               <td class="text-primary font-bold">{{ item.nama }}</td>
               <td class="action-buttons text-right">
-                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)">Detail</button>
-                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)">Edit</button>
-                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)">Hapus</button>
+                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)" v-if="hasPermission('Equipment', 'canRead')">Detail</button>
+                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)" v-if="hasPermission('Equipment', 'canUpdate')">Edit</button>
+                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)" v-if="hasPermission('Equipment', 'canDelete')">Hapus</button>
               </td>
             </tr>
             <tr v-if="filteredData.length === 0">
@@ -82,7 +82,7 @@
 
             <div class="form-actions flex justify-end mt-4" v-if="!isDetail">
               <button type="button" class="btn btn-transparent mr-2" @click="closeForm()">Batal</button>
-              <button type="submit" class="btn btn-primary">Tambah Data</button>
+              <button type="submit" class="btn btn-primary" v-if="hasPermission('Equipment', 'canCreate')">Tambah Data</button>
             </div>
             <div class="form-actions flex justify-end mt-4" v-else>
               <button type="button" class="btn btn-secondary w-100" @click="closeForm()">Tutup</button>
@@ -95,7 +95,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 import Swal from 'sweetalert2';
 

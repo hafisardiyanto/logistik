@@ -13,7 +13,7 @@
     <div class="card-container" v-if="!showForm">
       <div class="card-header flex justify-between align-center">
         <h2>Master Biaya</h2>
-        <button class="btn btn-primary" @click="openAddForm()">
+        <button class="btn btn-primary" @click="openAddForm()" v-if="hasPermission('Kelompok Biaya', 'canCreate')">
           <i class="fas fa-plus"></i> Tambah Jenis Biaya
         </button>
       </div>
@@ -54,7 +54,7 @@
                 <td>{{ parent.kodeAkun || '-' }}</td>
                 <td>{{ parent.keterangan || '-' }}</td>
                 <td class="action-buttons text-right">
-                  <button class="btn-icon text-primary" @click="openEditForm(parent)"><i class="far fa-edit"></i></button>
+                  <button class="btn-icon text-primary" @click="openEditForm(parent)" v-if="hasPermission('Kelompok Biaya', 'canUpdate')"><i class="far fa-edit"></i></button>
                   <button class="btn-icon text-danger" @click="deleteData(parent.id)"><i class="far fa-trash-alt"></i></button>
                 </td>
               </tr>
@@ -65,7 +65,7 @@
                 <td>{{ child.kodeAkun || '-' }}</td>
                 <td>{{ child.keterangan || '-' }}</td>
                 <td class="action-buttons text-right">
-                  <button class="btn-icon text-primary" @click="openEditForm(child)"><i class="far fa-edit"></i></button>
+                  <button class="btn-icon text-primary" @click="openEditForm(child)" v-if="hasPermission('Kelompok Biaya', 'canUpdate')"><i class="far fa-edit"></i></button>
                   <button class="btn-icon text-danger" @click="deleteData(child.id)"><i class="far fa-trash-alt"></i></button>
                 </td>
               </tr>
@@ -152,7 +152,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 import Swal from 'sweetalert2';
 

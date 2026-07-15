@@ -11,7 +11,7 @@
 
     <div class="card-container">
       <div class="card-header flex justify-end mb-4">
-        <button class="btn btn-primary" @click="openAddForm()">
+        <button class="btn btn-primary" @click="openAddForm()" v-if="hasPermission('Tipe Kendaraan', 'canCreate')">
           <i class="fas fa-plus"></i> Tambah Data
         </button>
       </div>
@@ -47,9 +47,9 @@
               <td>{{ item.tipeModa?.nama }}</td>
               <td>{{ item.kapasitasTonase }}</td>
               <td class="action-buttons text-right">
-                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)">Detail</button>
-                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)">Edit</button>
-                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)">Hapus</button>
+                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)" v-if="hasPermission('Tipe Kendaraan', 'canRead')">Detail</button>
+                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)" v-if="hasPermission('Tipe Kendaraan', 'canUpdate')">Edit</button>
+                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)" v-if="hasPermission('Tipe Kendaraan', 'canDelete')">Hapus</button>
               </td>
             </tr>
             <tr v-if="filteredData.length === 0">
@@ -131,7 +131,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 import Swal from 'sweetalert2';
 

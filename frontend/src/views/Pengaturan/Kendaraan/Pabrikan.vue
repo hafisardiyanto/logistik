@@ -11,7 +11,7 @@
 
     <div class="card-container">
       <div class="card-header flex justify-end mb-4">
-        <button class="btn btn-primary" @click="openAddForm()">
+        <button class="btn btn-primary" @click="openAddForm()" v-if="hasPermission('Pabrikan', 'canCreate')">
           <i class="fas fa-plus"></i> Tambah Data
         </button>
       </div>
@@ -45,15 +45,15 @@
               <td class="text-primary font-bold">{{ item.nama }}</td>
               <td class="text-primary">{{ item.tipePabrikan?.nama }}</td>
               <td class="action-buttons text-right">
-                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)">Detail</button>
-                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)">Edit</button>
-                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)">Hapus</button>
+                <button class="btn btn-info btn-sm mr-2" @click="openDetailForm(item)" v-if="hasPermission('Pabrikan', 'canRead')">Detail</button>
+                <button class="btn btn-warning btn-sm mr-2" @click="openEditForm(item)" v-if="hasPermission('Pabrikan', 'canUpdate')">Edit</button>
+                <button class="btn btn-danger btn-sm" @click="deleteData(item.id)" v-if="hasPermission('Pabrikan', 'canDelete')">Hapus</button>
               </td>
             </tr>
             <tr v-if="filteredData.length === 0">
               <td colspan="3" class="text-center py-4">
                 <p class="mb-2">Data Kosong</p>
-                <button class="btn btn-primary" @click="openAddForm()">+ Tambah Data</button>
+                <button class="btn btn-primary" @click="openAddForm()" v-if="hasPermission('Pabrikan', 'canCreate')">+ Tambah Data</button>
               </td>
             </tr>
           </tbody>
@@ -105,7 +105,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, inject } from 'vue';
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 import Swal from 'sweetalert2';
 

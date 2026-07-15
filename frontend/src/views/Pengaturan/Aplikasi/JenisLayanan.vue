@@ -32,8 +32,8 @@
           </div>
           
           <div class="form-actions">
-            <button class="btn-batal" @click="batal">{{ isDetail ? 'Kembali' : 'Batal' }}</button>
-            <button class="btn-simpan" @click="simpanData" v-if="!isDetail">Simpan</button>
+            <button class="btn-batal" @click="batal" v-if="hasPermission('Jenis Layanan', 'canRead')">{{ isDetail ? 'Kembali' : 'Batal' }}</button>
+            <button class="btn-simpan" @click="simpanData" v-if="!isDetail" v-if="hasPermission('Jenis Layanan', 'canRead')">Simpan</button>
           </div>
         </div>
 
@@ -69,7 +69,7 @@
           <h2>Daftar Jenis Layanan Logistik</h2>
         </div>
         <div class="header-actions">
-          <button class="btn-primary" @click="isAdding = true">+ Tambah Data</button>
+          <button class="btn-primary" @click="isAdding = true" v-if="hasPermission('Jenis Layanan', 'canCreate')">+ Tambah Data</button>
         </div>
       </div>
       <table class="data-table">
@@ -97,9 +97,9 @@
               <span v-else class="badge-nonaktif">Non Aktif</span>
             </td>
             <td>
-              <button class="btn-sm btn-info" @click="detailData(item)" style="margin-right: 5px;">Detail</button>
-              <button class="btn-sm btn-warning" @click="editData(item)" style="margin-right: 5px;">Edit</button>
-              <button class="btn-sm btn-danger" @click="hapusData(item.id)">Delete</button>
+              <button class="btn-sm btn-info" @click="detailData(item)" style="margin-right: 5px;" v-if="hasPermission('Jenis Layanan', 'canRead')">Detail</button>
+              <button class="btn-sm btn-warning" @click="editData(item)" style="margin-right: 5px;" v-if="hasPermission('Jenis Layanan', 'canUpdate')">Edit</button>
+              <button class="btn-sm btn-danger" @click="hapusData(item.id)" v-if="hasPermission('Jenis Layanan', 'canDelete')">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -111,7 +111,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 const router = useRouter();
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 
 const isAdding = ref(false); // Default to false to show table list by default

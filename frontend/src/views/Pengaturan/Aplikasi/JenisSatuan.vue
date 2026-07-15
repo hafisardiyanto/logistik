@@ -10,13 +10,13 @@
     <div class="table-card">
       <div class="toolbar">
         <input type="file" ref="fileInput" accept=".csv" style="display: none" @change="handleImportFile" />
-        <button class="btn-outline" @click="triggerFileInput">
+        <button class="btn-outline" @click="triggerFileInput" v-if="hasPermission('Jenis Satuan (Aplikasi)', 'canCreate')">
           Import CSV
         </button>
-        <button class="btn-success" @click="exportCSV">
+        <button class="btn-success" @click="exportCSV" v-if="hasPermission('Jenis Satuan (Aplikasi)', 'canRead')">
           Export CSV
         </button>
-        <button class="btn-primary" @click="openModal()">
+        <button class="btn-primary" @click="openModal()" v-if="hasPermission('Jenis Satuan (Aplikasi)', 'canCreate')">
           + Tambah Satuan
         </button>
       </div>
@@ -53,10 +53,10 @@
               <span v-if="item.default" class="badge-default">Default</span>
             </td>
             <td style="text-align: right;">
-              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit">
+              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit" v-if="hasPermission('Jenis Satuan (Aplikasi)', 'canUpdate')">
                 ✎
               </button>
-              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus">
+              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus" v-if="hasPermission('Jenis Satuan (Aplikasi)', 'canDelete')">
                 🗑
               </button>
             </td>
@@ -107,7 +107,8 @@
 <script setup>
 import { useRouter } from 'vue-router';
 const router = useRouter();
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 
 const listData = ref([]);

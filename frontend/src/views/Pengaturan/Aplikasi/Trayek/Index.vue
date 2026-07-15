@@ -9,7 +9,7 @@
 
     <div class="table-card">
       <div class="toolbar">
-        <button class="btn-primary" @click="goToForm(null)">
+        <button class="btn-primary" @click="goToForm(null)" v-if="hasPermission('Trayek (Aplikasi)', 'canCreate')">
           + Tambah Trayek/Rute
         </button>
       </div>
@@ -50,10 +50,10 @@
             <td>{{ item.kotaTujuan?.nama }}</td>
             <td>{{ item.keterangan || '-' }}</td>
             <td style="text-align: right;">
-              <button class="btn-icon text-primary" @click="goToForm(item.id)" title="Edit">
+              <button class="btn-icon text-primary" @click="goToForm(item.id)" title="Edit" v-if="hasPermission('Trayek (Aplikasi)', 'canUpdate')">
                 <i class="fa fa-edit"></i> ✎
               </button>
-              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus">
+              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus" v-if="hasPermission('Trayek (Aplikasi)', 'canDelete')">
                 <i class="fa fa-trash"></i> 🗑
               </button>
             </td>
@@ -78,7 +78,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 

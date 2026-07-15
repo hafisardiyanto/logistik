@@ -98,7 +98,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn-outline" @click="closeModal">Batal</button>
-          <button class="btn-primary" @click="saveData">{{ form.id ? 'Simpan' : 'Tambah' }}</button>
+          <button class="btn-primary" @click="saveData" v-if="hasPermission('Negara', 'canCreate')">{{ form.id ? 'Simpan' : 'Tambah' }}</button>
         </div>
       </div>
     </div>

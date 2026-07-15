@@ -10,7 +10,7 @@
           <h2>Daftar Jenis Biaya Tambahan</h2>
         </div>
         <div class="header-actions">
-          <button class="btn-primary">+ Tambah Data</button>
+          <button class="btn-primary" v-if="hasPermission('Jenis Biaya', 'canCreate')">+ Tambah Data</button>
         </div>
       </div>
       <table class="data-table">
@@ -31,6 +31,9 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 
 </script>
 <style scoped src="../../../assets/css/operasional-jenisbiaya.css"></style>

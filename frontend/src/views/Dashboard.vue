@@ -498,7 +498,10 @@ const showRoleModal = ref(false)
 const isEditingRole = ref(false)
 const currentEditRoleId = ref(null)
 
-const parentModules = ['Dashboard', 'Kontak', 'Tarif Logistik', 'Pemasaran', 'Order', 'Kapal & Kontainer', 'Data Kendaraan', 'Pengaturan'];
+const parentModules = [
+  'Dashboard', 'Kontak', 'Tarif Logistik', 'Pemasaran', 'Order', 'Kapal & Kontainer', 'Data Kendaraan', 'Pengaturan',
+  'Pengaturan Aplikasi', 'Setting Kendaraan', 'Pengaturan Umum', 'Pengaturan Lokasi', 'Pengaturan Operasional', 'Pengaturan Inventori', 'Pengaturan Keuangan'
+];
 const isSubmenu = (mod) => !parentModules.includes(mod);
 
 const defaultModules = [
@@ -509,7 +512,14 @@ const defaultModules = [
   'Order', 'Work Order', 'Job Order', 'Manifest/Packing List', 'Vendor Job', 'Delivery Order', 'Auto routing', 'Operational Progress', 'Laporan Order',
   'Kapal & Kontainer', 'Jadwal Kapal', 'Tracking Kontainer',
   'Data Kendaraan', 'Daftar Kendaraan', 'Trailer', 'ISO Tank Container',
-  'Pengaturan', 'Pengaturan Aplikasi', 'Pengaturan Perusahaan', 'Pengaturan User', 'Setting Kendaraan'
+  'Pengaturan', 'Pengaturan Perusahaan', 'Pengaturan User',
+  'Pengaturan Aplikasi', 'Jenis Layanan', 'Jenis Satuan (Aplikasi)', 'Tipe Container (Aplikasi)', 'Komoditas (Aplikasi)', 'Kop Surat', 'Integrasi GPS', 'Pelayaran', 'Daftar Kapal', 'Trayek (Aplikasi)',
+  'Setting Kendaraan', 'Pabrikan', 'Tipe Kendaraan', 'Equipment', 'Body Kendaraan', 'Axel', 'Varian',
+  'Pengaturan Umum', 'Jenis Satuan (Umum)', 'Tipe Container (Umum)', 'Komoditas (Umum)', 'Jenis BBM', 'Level Pelanggan', 'Tahapan Penawaran',
+  'Pengaturan Lokasi', 'Negara', 'Pelabuhan', 'Trayek (Lokasi)', 'SPBU', 'Depo Kontainer', 'Gate Location',
+  'Pengaturan Operasional', 'Kelompok Biaya', 'Jenis Biaya', 'Standar Biaya', 'Service Time', 'Window Receive', 'Alasan Batal',
+  'Pengaturan Inventori', 'Brand', 'Tipe Bin', 'Kategori', 'Master Item', 'Warehouse', 'Bin Location', 'Loading Dock',
+  'Pengaturan Keuangan', 'Master Pajak'
 ]
 
 const roleForm = reactive({

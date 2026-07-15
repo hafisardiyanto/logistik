@@ -10,7 +10,7 @@
           <h2>Daftar Window Receive Time (WRT)</h2>
         </div>
         <div class="header-actions">
-          <button class="btn-primary">+ Tambah Data</button>
+          <button class="btn-primary" v-if="hasPermission('Window Receive', 'canCreate')">+ Tambah Data</button>
         </div>
       </div>
       <table class="data-table">
@@ -31,6 +31,9 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 
 </script>
 <style scoped src="../../../assets/css/operasional-windowreceive.css"></style>

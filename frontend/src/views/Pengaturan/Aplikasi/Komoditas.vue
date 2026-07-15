@@ -10,13 +10,13 @@
     <div class="table-card">
       <div class="toolbar">
         <input type="file" ref="fileInput" accept=".csv" style="display: none" @change="handleImportFile" />
-        <button class="btn-outline" @click="triggerFileInput">
+        <button class="btn-outline" @click="triggerFileInput" v-if="hasPermission('Komoditas (Aplikasi)', 'canCreate')">
           Import CSV
         </button>
-        <button class="btn-success" @click="exportCSV">
+        <button class="btn-success" @click="exportCSV" v-if="hasPermission('Komoditas (Aplikasi)', 'canRead')">
           Export CSV
         </button>
-        <button class="btn-primary" @click="openModal()">
+        <button class="btn-primary" @click="openModal()" v-if="hasPermission('Komoditas (Aplikasi)', 'canCreate')">
           + Tambah Komoditas
         </button>
       </div>
@@ -53,10 +53,10 @@
               <span v-if="item.default" class="badge-default">Default</span>
             </td>
             <td style="text-align: right;">
-              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit">
+              <button class="btn-icon text-primary" @click="openModal(item)" title="Edit" v-if="hasPermission('Komoditas (Aplikasi)', 'canUpdate')">
                 ✎
               </button>
-              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus">
+              <button class="btn-icon text-danger" @click="deleteItem(item.id)" title="Hapus" v-if="hasPermission('Komoditas (Aplikasi)', 'canDelete')">
                 🗑
               </button>
             </td>
@@ -97,7 +97,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn-outline" @click="closeModal">Batal</button>
-          <button class="btn-primary" @click="saveData">{{ form.id ? 'Simpan Data' : 'Tambah Data' }}</button>
+          <button class="btn-primary" @click="saveData" v-if="hasPermission('Komoditas (Aplikasi)', 'canCreate')">{{ form.id ? 'Simpan Data' : 'Tambah Data' }}</button>
         </div>
       </div>
     </div>
@@ -107,7 +107,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 const router = useRouter();
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
+
+const hasPermission = inject('hasPermission', () => true);
 import axios from 'axios';
 
 const listData = ref([]);
